@@ -18,6 +18,15 @@ export class Login {
 
   readonly submitting = signal(false);
   readonly errorMessage = signal('');
+  readonly infoMessage = signal('');
+
+ngOnInit(): void {
+  const state = history.state as { registeredUsername?: string };
+  if (state?.registeredUsername) {
+    this.form.patchValue({ username: state.registeredUsername });
+    this.infoMessage.set('ACCOUNT CREATED — SIGN IN TO CONTINUE.');
+  }
+}
 
   form = this.fb.nonNullable.group({
     username: ['', [Validators.required]],

@@ -37,6 +37,13 @@
       <div class="alert">{{ errorMessage() }}</div>
     }
 
+    @if (infoMessage()) {
+  <div class="message success-message" role="status">
+    <span class="message-icon">✓</span>
+    <span>{{ infoMessage() }}</span>
+  </div>
+}
+
     <button type="submit" [disabled]="submitting() || form.invalid">
       <span class="btn-glow"></span>
       <span class="btn-text">{{ submitting() ? 'AUTHENTICATING...' : 'JACK IN' }}</span>

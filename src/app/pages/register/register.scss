@@ -204,75 +204,178 @@ $gold: #d6b56d;
 
 //Brand
 
+
+// Sci-fi brand — fixed at the top-left of the screen
 .brand {
+  position: fixed;
+  top: 28px;
+  left: 32px;
+  z-index: 20;
 
   display: flex;
-
-  justify-content: center;
-
+  justify-content: flex-start;
   align-items: center;
+  margin-bottom: 0;
 
-  margin-bottom: 24px;
-
-  a {
-
+  .brand-link {
     display: inline-flex;
-
-    justify-content: center;
-
     align-items: center;
-
+    justify-content: center;
+    gap: 13px;
     text-decoration: none;
-
-  }
-
-  .brand-logo {
-
-    display: block;
-
-    width: min(100%, 320px);
-
-    height: 110px;
-
-    object-fit: contain;
-
-    filter: drop-shadow(0 0 12px rgba(0, 245, 212, 0.12));
-
-    transition:
-
-      filter 0.3s ease,
-
-      transform 0.3s ease;
+    color: inherit;
+    transition: transform 0.3s ease;
 
     &:hover {
-
-      filter: drop-shadow(0 0 18px rgba(0, 245, 212, 0.3));
-
       transform: translateY(-2px);
 
+      .brand-symbol {
+        box-shadow:
+          0 0 12px rgba(0, 245, 212, 0.5),
+          inset 0 0 12px rgba(0, 245, 212, 0.12);
+      }
+
+      .brand-meta {
+        text-shadow: 0 0 18px rgba(0, 245, 212, 0.55);
+      }
     }
 
+    &:focus-visible {
+      outline: 1px solid #00f5d4;
+      outline-offset: 6px;
+    }
   }
 
+  .brand-symbol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    flex-shrink: 0;
+
+    font-family: 'Orbitron', sans-serif;
+    font-size: 27px;
+    font-weight: 900;
+    font-style: italic;
+    color: #00f5d4;
+
+    border: 1px solid rgba(0, 245, 212, 0.65);
+
+    background: linear-gradient(
+      145deg,
+      rgba(0, 245, 212, 0.14),
+      rgba(0, 184, 255, 0.025)
+    );
+
+    clip-path: polygon(
+      0 0,
+      78% 0,
+      100% 22%,
+      100% 100%,
+      22% 100%,
+      0 78%
+    );
+
+    text-shadow: 0 0 12px rgba(0, 245, 212, 0.6);
+    box-shadow: 0 0 10px rgba(0, 245, 212, 0.12);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .brand-wordmark {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    line-height: 1;
+  }
+
+  .brand-meta {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(23px, 4vw, 30px);
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: #e0fff9;
+    text-shadow: 0 0 10px rgba(0, 245, 212, 0.2);
+    transition: text-shadow 0.3s ease;
+  }
+
+  .brand-divider {
+    display: none;
+  }
+
+  .brand-platform {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 5.2px;
+    color: #00f5d4;
+    text-shadow: 0 0 8px rgba(0, 245, 212, 0.3);
+  }
 }
 
+// Mobile responsive layout
 @media (max-width: 480px) {
-
   .brand {
+    top: 18px;
+    left: 16px;
 
-    margin-bottom: 18px;
-
-    .brand-logo {
-
-      width: min(100%, 280px);
-
-      height: 90px;
-
+    .brand-link {
+      gap: 9px;
     }
 
-  }
+    .brand-symbol {
+      width: 34px;
+      height: 34px;
+      font-size: 21px;
+    }
 
+    .brand-wordmark {
+      gap: 3px;
+    }
+
+    .brand-meta {
+      font-size: 21px;
+      letter-spacing: 2px;
+    }
+
+    .brand-platform {
+      font-size: 8px;
+      letter-spacing: 3px;
+    }
+  }
 }
+
+// Smaller screens
+@media (max-width: 360px) {
+  .brand {
+    top: 14px;
+    left: 12px;
+
+    .brand-link {
+      gap: 7px;
+    }
+
+    .brand-symbol {
+      width: 30px;
+      height: 30px;
+      font-size: 19px;
+    }
+
+    .brand-meta {
+      font-size: 19px;
+      letter-spacing: 1.5px;
+    }
+
+    .brand-platform {
+      font-size: 7px;
+      letter-spacing: 2.5px;
+    }
+  }
+}
+
+
+
 
 // Registration panel
 
