@@ -80,4 +80,5 @@ yarn-error.log*
 /coverage
 
 # Optional — if you want to commit the proxy config, do NOT ignore it
-# proxy.conf.json   ← leave this uncommented only if you want to ignore it
+# proxy.conf.json   ← leave this uncommented only if you want to ignore it.vscode/
+.vscode/
