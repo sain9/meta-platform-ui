@@ -1,0 +1,214 @@
+<div class="hud">
+  <div class="hud-grid" aria-hidden="true"></div>
+  <div class="hud-scan" aria-hidden="true"></div>
+
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <main class="register-layout">
+    <div class="brand">
+      <span class="brand-symbol">M</span>
+      <span class="brand-name">META<span>//</span>PLATFORM</span>
+    </div>
+
+    <form
+      class="panel"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      autocomplete="on"
+      novalidate
+    >
+      <div class="panel-corner tl"></div>
+      <div class="panel-corner tr"></div>
+      <div class="panel-corner bl"></div>
+      <div class="panel-corner br"></div>
+
+      <header class="panel-head">
+        <div class="status">
+          <span class="dot"></span>
+          <span>SECURE CHANNEL</span>
+          <span class="status-code">REG.001</span>
+        </div>
+
+        <h1>CREATE <span>ACCOUNT</span></h1>
+        <p class="subtitle">INITIALIZE YOUR ACCESS PROFILE</p>
+      </header>
+
+      <div class="section-label">
+        <span>01</span>
+        <span>IDENTITY CONFIGURATION</span>
+        <span class="section-line"></span>
+      </div>
+
+      <div class="form-grid">
+        <label class="field">
+          <span class="field-label">// FIRST NAME</span>
+          <input
+            type="text"
+            formControlName="firstName"
+            autocomplete="given-name"
+            placeholder="First name"
+            maxlength="50"
+            required
+          />
+
+          @if (
+            form.controls.firstName.touched &&
+            form.controls.firstName.invalid
+          ) {
+            <small class="err">FIRST NAME REQUIRED</small>
+          }
+        </label>
+
+        <label class="field">
+          <span class="field-label">// LAST NAME</span>
+          <input
+            type="text"
+            formControlName="lastName"
+            autocomplete="family-name"
+            placeholder="Last name"
+            maxlength="50"
+            required
+          />
+
+          @if (
+            form.controls.lastName.touched &&
+            form.controls.lastName.invalid
+          ) {
+            <small class="err">LAST NAME REQUIRED</small>
+          }
+        </label>
+      </div>
+
+      <label class="field">
+        <span class="field-label">// OPERATOR ID</span>
+        <div class="input-shell">
+          <span class="input-prefix" aria-hidden="true">&gt;_</span>
+          <input
+            type="text"
+            formControlName="username"
+            autocomplete="username"
+            placeholder="Choose a username"
+            minlength="3"
+            maxlength="50"
+            spellcheck="false"
+            required
+          />
+        </div>
+
+        @if (
+          form.controls.username.touched &&
+          form.controls.username.invalid
+        ) {
+          <small class="err">
+            USERNAME REQUIRED — 3 TO 50 CHARACTERS
+          </small>
+        }
+      </label>
+
+      <label class="field">
+        <span class="field-label">// EMAIL ADDRESS</span>
+        <div class="input-shell">
+          <span class="input-prefix" aria-hidden="true">@</span>
+          <input
+            type="email"
+            formControlName="email"
+            autocomplete="email"
+            placeholder="operator@example.com"
+            required
+          />
+        </div>
+
+        @if (
+          form.controls.email.touched &&
+          form.controls.email.invalid
+        ) {
+          <small class="err">ENTER A VALID EMAIL ADDRESS</small>
+        }
+      </label>
+
+      <div class="section-label access-label">
+        <span>02</span>
+        <span>ACCESS CONFIGURATION</span>
+        <span class="section-line"></span>
+      </div>
+
+      <label class="field">
+        <span class="field-label">// ACCESS KEY</span>
+        <div class="input-shell">
+          <span class="input-prefix" aria-hidden="true">#</span>
+          <input
+            type="password"
+            formControlName="password"
+            autocomplete="new-password"
+            placeholder="Create a password"
+            minlength="8"
+            maxlength="128"
+            required
+          />
+        </div>
+
+        @if (
+          form.controls.password.touched &&
+          form.controls.password.invalid
+        ) {
+          <small class="err">PASSWORD MUST BE 8–128 CHARACTERS</small>
+        }
+      </label>
+
+      <label class="field">
+        <span class="field-label">// OPERATOR CLEARANCE</span>
+        <select formControlName="role" required>
+          @for (r of roles; track r.value) {
+            <option [value]="r.value">{{ r.label }}</option>
+          }
+        </select>
+      </label>
+
+      <p class="role-note">
+        ACCESS PERMISSIONS ARE VALIDATED BY THE PLATFORM.
+      </p>
+
+      @if (errorMessage()) {
+        <div class="message error-message" role="alert">
+          <span class="message-icon">!</span>
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
+
+      @if (successMessage()) {
+        <div class="message success-message" role="status">
+          <span class="message-icon">✓</span>
+          <span>{{ successMessage() }}</span>
+        </div>
+      }
+
+      <button
+        class="register-button"
+        type="submit"
+        [disabled]="submitting()"
+      >
+        <span class="btn-glow" aria-hidden="true"></span>
+        <span class="btn-text">
+          {{ submitting() ? 'INITIALIZING ACCOUNT...' : 'CREATE ACCOUNT' }}
+        </span>
+        <span class="btn-arrow" aria-hidden="true">↗</span>
+      </button>
+
+      <div class="login-link">
+        <span>ALREADY HAVE AN ACCOUNT?</span>
+        <a routerLink="/login">SIGN IN //</a>
+      </div>
+
+      <footer class="panel-foot">
+        <span><span class="footer-dot"></span> SYS.STATUS</span>
+        <span class="ok">SYSTEM ONLINE</span>
+        <span>MP // 001</span>
+      </footer>
+    </form>
+
+    <div class="bottom-caption">
+      SECURE <span>·</span> SCALABLE <span>·</span> CONNECTED
+    </div>
+  </main>
+</div>

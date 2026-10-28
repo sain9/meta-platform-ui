@@ -1,0 +1,415 @@
+
+// login.component.scss
+
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+$neon: #00f5d4;
+$blue: #00b8ff;
+$text: #d5fff8;
+$muted: #7198a5;
+$danger: #ff426d;
+$panel-bg: rgba(3, 15, 29, 0.94);
+
+.hud {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 24px;
+  box-sizing: border-box;
+
+  color: $text;
+  font-family: 'Share Tech Mono', monospace;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 45%,
+      rgba(0, 100, 130, 0.17),
+      transparent 58%
+    ),
+    linear-gradient(145deg, #020711, #061321 55%, #020711);
+
+  // Background HUD grid
+  .hud-grid {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    background-image:
+      linear-gradient(rgba(0, 245, 212, 0.065) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 245, 212, 0.065) 1px, transparent 1px);
+
+    background-size: 44px 44px;
+
+    mask-image: linear-gradient(
+      to bottom,
+      black,
+      rgba(0, 0, 0, 0.6) 75%,
+      transparent
+    );
+  }
+
+  // Animated scanning beam
+  .hud-scan {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -2%;
+      left: 0;
+      width: 100%;
+      height: 2px;
+
+      background: rgba(0, 245, 212, 0.35);
+      box-shadow: 0 0 18px rgba(0, 245, 212, 0.45);
+
+      animation: scan 8s linear infinite;
+    }
+  }
+
+  // Main authentication panel
+  .panel {
+    width: min(100%, 460px);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 42px 38px 26px;
+    box-sizing: border-box;
+
+    background: $panel-bg;
+    border: 1px solid rgba(0, 245, 212, 0.48);
+
+    clip-path: polygon(
+      18px 0,
+      calc(100% - 55px) 0,
+      100% 28px,
+      100% calc(100% - 18px),
+      calc(100% - 18px) 100%,
+      55px 100%,
+      0 calc(100% - 55px),
+      0 18px
+    );
+
+    box-shadow:
+      0 0 30px rgba(0, 184, 255, 0.08),
+      inset 0 0 35px rgba(0, 184, 255, 0.025);
+
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+      box-shadow:
+        0 0 38px rgba(0, 184, 255, 0.12),
+        inset 0 0 35px rgba(0, 184, 255, 0.035);
+    }
+  }
+
+  // Angular corner decorations
+  .panel-corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: $neon;
+    border-style: solid;
+    pointer-events: none;
+
+    &.tl {
+      top: 8px;
+      left: 8px;
+      border-width: 2px 0 0 2px;
+    }
+
+    &.tr {
+      top: 8px;
+      right: 8px;
+      border-width: 2px 2px 0 0;
+    }
+
+    &.bl {
+      bottom: 8px;
+      left: 8px;
+      border-width: 0 0 2px 2px;
+    }
+
+    &.br {
+      right: 8px;
+      bottom: 8px;
+      border-width: 0 2px 2px 0;
+    }
+  }
+
+  // Branding and heading
+  .panel-head {
+    text-align: center;
+    margin-bottom: 18px;
+
+    h1 {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(23px, 5vw, 32px);
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-shadow: 0 0 18px rgba(0, 245, 212, 0.2);
+
+      span {
+        color: $neon;
+        margin: 0 4px;
+      }
+    }
+
+    .subtitle {
+      margin: 12px 0 0;
+      color: $muted;
+      font-size: 11px;
+      letter-spacing: 4px;
+    }
+  }
+
+  // Connection status
+  .status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+
+    color: $neon;
+    font-size: 11px;
+    letter-spacing: 3px;
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: $neon;
+      box-shadow: 0 0 12px $neon;
+
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+  }
+
+  // Input fields
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .field-label {
+      color: $neon;
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+
+    input {
+      width: 100%;
+      min-width: 0;
+      padding: 15px 16px;
+      box-sizing: border-box;
+
+      color: $text;
+      background: rgba(0, 184, 255, 0.035);
+      border: 1px solid rgba(0, 184, 255, 0.4);
+      border-left: 3px solid $neon;
+      border-radius: 2px;
+
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+
+      &::placeholder {
+        color: #496d7c;
+      }
+
+      &:focus {
+        border-color: $neon;
+        background: rgba(0, 245, 212, 0.055);
+
+        box-shadow:
+          0 0 0 2px rgba(0, 245, 212, 0.07),
+          0 0 20px rgba(0, 245, 212, 0.1);
+      }
+
+      &:-webkit-autofill {
+        -webkit-text-fill-color: $text;
+        transition: background-color 9999s ease-in-out 0s;
+      }
+    }
+  }
+
+  // Validation messages
+  .err {
+    margin-top: -8px;
+    color: $danger;
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .alert {
+    padding: 12px;
+    overflow-wrap: anywhere;
+
+    border: 1px solid rgba(255, 66, 109, 0.5);
+    background: rgba(255, 66, 109, 0.08);
+
+    color: #ff8ca7;
+    font-size: 12px;
+  }
+
+  // Primary action button
+  .panel button {
+    position: relative;
+    overflow: hidden;
+    margin-top: 12px;
+    padding: 16px;
+
+    color: #00120f;
+    background: $neon;
+    border: 1px solid $neon;
+
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 4px;
+
+    cursor: pointer;
+
+    clip-path: polygon(
+      12px 0,
+      100% 0,
+      100% calc(100% - 12px),
+      calc(100% - 12px) 100%,
+      0 100%,
+      0 12px
+    );
+
+    transition:
+      background 0.25s ease,
+      box-shadow 0.25s ease,
+      transform 0.25s ease;
+
+    &:hover:not(:disabled) {
+      background: #a4fff0;
+      box-shadow: 0 0 20px rgba(0, 245, 212, 0.45);
+      transform: translateY(-1px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid white;
+      outline-offset: 4px;
+    }
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn-glow {
+      position: absolute;
+      inset: 0;
+
+      background: linear-gradient(
+        110deg,
+        transparent 25%,
+        rgba(255, 255, 255, 0.45) 50%,
+        transparent 75%
+      );
+
+      transform: translateX(-120%);
+      transition: transform 0.6s ease;
+    }
+
+    &:hover:not(:disabled) .btn-glow {
+      transform: translateX(120%);
+    }
+
+    .btn-text {
+      position: relative;
+    }
+  }
+
+  // System footer
+  .panel-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+
+    margin-top: 12px;
+    padding-top: 18px;
+
+    border-top: 1px solid rgba(0, 184, 255, 0.22);
+
+    color: $muted;
+    font-size: 10px;
+    letter-spacing: 2px;
+
+    .ok {
+      color: $neon;
+    }
+  }
+}
+
+// Animations
+@keyframes scan {
+  from {
+    top: -2%;
+  }
+
+  to {
+    top: 102%;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+// Responsive layout
+@media (max-width: 480px) {
+  .hud {
+    padding: 14px;
+
+    .panel {
+      padding: 35px 22px 22px;
+    }
+
+    .panel-head .subtitle {
+      letter-spacing: 2px;
+    }
+  }
+}
+
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+  .hud,
+  .hud *,
+  .hud *::before,
+  .hud *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

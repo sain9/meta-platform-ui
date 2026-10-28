@@ -2,7 +2,8 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": "72bc111c-afa6-4779-be3f-451dde7b9677"
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -57,22 +58,25 @@
           },
           "defaultConfiguration": "production"
         },
-        "serve": {
-          "builder": "@angular/build:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "meta-platform-ui:build:production"
+          "serve": {
+            "builder": "@angular/build:dev-server",
+            "options": {
+              "proxyConfig": "proxy.conf.json"
             },
-            "development": {
-              "buildTarget": "meta-platform-ui:build:development"
-            }
+            "configurations": {
+              "production": {
+                "buildTarget": "meta-platform-ui:build:production"
+              },
+              "development": {
+                "buildTarget": "meta-platform-ui:build:development"
+              }
+            },
+            "defaultConfiguration": "development"
           },
-          "defaultConfiguration": "development"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test"
+          "test": {
+            "builder": "@angular/build:unit-test"
+          }
         }
       }
     }
   }
-}

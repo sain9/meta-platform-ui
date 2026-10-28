@@ -1,0 +1,50 @@
+<div class="hud">
+  <div class="hud-grid"></div>
+  <div class="hud-scan"></div>
+
+  <form class="panel" [formGroup]="form" (ngSubmit)="onSubmit()" autocomplete="off">
+    <div class="panel-corner tl"></div>
+    <div class="panel-corner tr"></div>
+    <div class="panel-corner bl"></div>
+    <div class="panel-corner br"></div>
+
+    <header class="panel-head">
+      <div class="status">
+        <span class="dot"></span>
+        <span class="label">SECURE CHANNEL</span>
+      </div>
+      <h1>META<span>//</span>PLATFORM</h1>
+      <p class="subtitle">AUTHENTICATION REQUIRED</p>
+    </header>
+
+    <label class="field">
+      <span class="field-label">// OPERATOR ID</span>
+      <input type="text" formControlName="username" autocomplete="username" spellcheck="false" />
+    </label>
+    @if (form.controls.username.touched && form.controls.username.invalid) {
+      <small class="err">IDENTITY FIELD REQUIRED</small>
+    }
+
+    <label class="field">
+      <span class="field-label">// ACCESS KEY</span>
+      <input type="password" formControlName="password" autocomplete="current-password" />
+    </label>
+    @if (form.controls.password.touched && form.controls.password.invalid) {
+      <small class="err">KEY REQUIRED (MIN 3)</small>
+    }
+
+    @if (errorMessage()) {
+      <div class="alert">{{ errorMessage() }}</div>
+    }
+
+    <button type="submit" [disabled]="submitting() || form.invalid">
+      <span class="btn-glow"></span>
+      <span class="btn-text">{{ submitting() ? 'AUTHENTICATING...' : 'JACK IN' }}</span>
+    </button>
+
+    <footer class="panel-foot">
+      <span>SYS.STATUS</span>
+      <span class="ok">ONLINE</span>
+    </footer>
+  </form>
+</div>
