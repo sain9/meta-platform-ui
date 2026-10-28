@@ -3,6 +3,9 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
+
+
 
 export interface LoginRequest {
   username: string;
@@ -44,7 +47,7 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
 
-  private readonly baseUrl = '/api/v1/users';
+  private readonly baseUrl = environment.apiBase;
 
   readonly currentUser = signal<CurrentUser | null>(null);
 
