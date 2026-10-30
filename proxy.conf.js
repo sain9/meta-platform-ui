@@ -1,11 +1,12 @@
 // proxy.conf.js — read by the Angular dev server (Node), not the browser
-const TARGET = process.env.API_TARGET || 'http://localhost:9997';
 
-console.log(`[proxy] /api -> ${TARGET}`);
+const GATEWAY = process.env.API_TARGET || 'http://localhost:9999';
+
+console.log(`[proxy] /api -> ${GATEWAY}`);
 
 module.exports = {
   '/api': {
-    target: TARGET,
+    target: GATEWAY,
     secure: false,
     changeOrigin: true,
     logLevel: 'debug',
